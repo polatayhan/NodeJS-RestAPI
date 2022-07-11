@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/users');
 
 // Connect to MongoDB
 mongoose.connect("mongodb+srv://node-js:"+ process.env.MONGODB_ATLAS_PASSWORD +"@cluster0.dzx6a.mongodb.net/?retryWrites=true&w=majority")
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 // Routes which should handle requests
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
+app.use('/users', userRoutes);
 
 // If no route is matched by now, it must be a 404
 app.use((req, res, next) => {

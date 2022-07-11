@@ -1,5 +1,6 @@
 {
   "env": {
-    "MONGODB_ATLAS_PASSWORD": "node-js"
+    "MONGODB_ATLAS_PASSWORD": "node-js",
+    "JWT_KEY": "6S7D5F4S76D5FS876F5S87DF68S"
   }
 }

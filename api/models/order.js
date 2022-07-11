@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 // create a new schema for the product model
-const orderShema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
@@ -15,6 +16,7 @@ const orderShema = new mongoose.Schema({
         default: 1
     }
 });
+orderSchema.plugin(uniqueValidator);
 
 // export the mongoose model
-module.exports = mongoose.model('Order', orderShema);
+module.exports = mongoose.model('Order', orderSchema);

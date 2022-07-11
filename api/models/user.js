@@ -2,22 +2,21 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 // create a new schema for the product model
-const productSchema = new mongoose.Schema({
-    name: {
+const userSchema = new mongoose.Schema({
+    email: {
         type: String,
         required: true,
-        minlength: 2,
-        maxlength: 50,
         unique: true
     },
-    price: {
-        type: Number,
+    password: {
+        type: String,
         required: true,
         min: 0,
-        default: 0
+        default: 1,
+        //select: false
     }
 });
-productSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator);
 
 // export the mongoose model
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model('User', userSchema);
