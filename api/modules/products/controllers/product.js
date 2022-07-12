@@ -1,23 +1,20 @@
-const express = require('express');
-const router = express.Router();
-const Product = require('../models/product');
-const checkAuth = require('../middleware/checkAuth');
+const Product = require("../models/product");
 
-router.get('/', (req, res, next) => {
+const getAllProducts = (req, res, next) => {
     Product.find()
         .then(products => {
-        res.status(200).json({
-            message: 'Products fetched successfully',
-            products: products
-        });
-    }).catch(err => {
+            res.status(200).json({
+                message: 'Products fetched successfully',
+                products: products
+            });
+        }).catch(err => {
         res.status(500).json({
             message: 'Fetching products failed',
             error: err
         });
     });
-});
-router.post('/', checkAuth, (req, res, next) => {
+};
+const createProduct = (req, res, next) => {
     // create a new product
     const product = new Product({
         name: req.body.name,
@@ -35,9 +32,10 @@ router.post('/', checkAuth, (req, res, next) => {
             error: err
         });
     })
-});
-router.get('/:productId', (req, res, next) => {;
-    Product.findById(req.params.productId).then(product => {
+}
+const getProductById = (req, res, next) => {
+    Product.findById(req.params.productId)
+        .then(product => {
         if (product) {
             res.status(200).json({
                 message: 'Product found',
@@ -54,8 +52,8 @@ router.get('/:productId', (req, res, next) => {;
             error: err
         });
     });
-});
-router.patch('/:productId', (req, res, next) => {
+}
+const patchProductById = (req, res, next) => {
     Product.update({_id: req.params.productId}, {$set: req.body}).then(result => {
         res.status(200).json({
             message: 'Product updated',
@@ -67,8 +65,8 @@ router.patch('/:productId', (req, res, next) => {
             error: err
         });
     });
-});
-router.delete('/:productId', (req, res, next) => {
+}
+const deleteProductById = (req, res, next) => {
     Product.remove({_id: req.params.productId}).then(result => {
         res.status(200).json({
             message: 'Product deleted'
@@ -79,6 +77,12 @@ router.delete('/:productId', (req, res, next) => {
             error: err
         });
     });
-});
+}
 
-module.exports = router;
+module.exports = {
+    getAllProducts,
+    createProduct,
+    getProductById,
+    patchProductById,
+    deleteProductById
+};

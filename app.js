@@ -4,9 +4,9 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const productRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
-const userRoutes = require('./api/routes/users');
+const productRoutes = require('./api/modules/products/routes/product');
+const orderRoutes = require('./api/modules/orders/routes/order');
+const userRoutes = require('./api/modules/users/routes/user');
 
 // Connect to MongoDB
 mongoose.connect("mongodb+srv://node-js:"+ process.env.MONGODB_ATLAS_PASSWORD +"@cluster0.dzx6a.mongodb.net/?retryWrites=true&w=majority")

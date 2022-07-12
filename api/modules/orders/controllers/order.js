@@ -1,36 +1,20 @@
-const express = require('express');
 const Order = require("../models/order");
-const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    Order.aggregate([
-        {
-            $lookup:{
-                from:"products",
-                localField:"product",
-                foreignField:"_id",
-                as:"products"
-            }
-        },
-        {
-            $match:{
-                "products.price": { $gt: 7 }
-            }
-        },
-    ])
+const getAllOrders = (req, res, next) => {
+    Order.find()
         .then(orders => {
-        res.status(200).json({
-            message: 'Orders fetched successfully',
-            orders: orders
-        });
-    }).catch(err => {
+            res.status(200).json({
+                message: 'Orders fetched successfully',
+                orders: orders
+            });
+        }).catch(err => {
         res.status(500).json({
             message: 'Fetching orders failed',
             error: err
         });
     });
-});
-router.post('/', (req, res, next) => {
+};
+const createOrder = (req, res, next) => {
     // create a new order
     const order = new Order({
         product: req.body.product,
@@ -48,8 +32,8 @@ router.post('/', (req, res, next) => {
             error: err
         });
     })
-});
-router.get('/:orderId', (req, res, next) => {;
+}
+const getOrderById = (req, res, next) => {
     Order.findById(req.params.orderId).then(order => {
         if (order) {
             res.status(200).json({
@@ -67,8 +51,8 @@ router.get('/:orderId', (req, res, next) => {;
             error: err
         });
     });
-});
-router.patch('/:orderId', (req, res, next) => {
+}
+const patchOrderById = (req, res, next) => {
     Order.update({_id: req.params.orderId}, {$set: req.body}).then(result => {
         res.status(200).json({
             message: 'Order updated',
@@ -80,8 +64,8 @@ router.patch('/:orderId', (req, res, next) => {
             error: err
         });
     });
-});
-router.delete('/:orderId', (req, res, next) => {
+}
+const deleteOrderById = (req, res, next) => {
     Order.remove({_id: req.params.orderId}).then(result => {
         res.status(200).json({
             message: 'Order deleted'
@@ -92,6 +76,12 @@ router.delete('/:orderId', (req, res, next) => {
             error: err
         });
     });
-});
+}
 
-module.exports = router;
+module.exports = {
+    getAllOrders,
+    createOrder,
+    getOrderById,
+    patchOrderById,
+    deleteOrderById
+};
